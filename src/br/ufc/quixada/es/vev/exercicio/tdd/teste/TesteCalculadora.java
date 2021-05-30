@@ -21,6 +21,13 @@ public class TesteCalculadora {
 	@Test
 	public void testaSubstraiDoisInteiros() {
 		Calculadora calculadora = new Calculadora();
+		int resultado = calculadora.subtrair(5, 2);
+		Assert.assertEquals(resultado, 3);
+	}
+
+	@Test
+	public void testeSubutrairInteirosERetornarNumeroNegativo() {
+		Calculadora calculadora = new Calculadora();
 		int resultado = calculadora.subtrair(1, 2);
 		Assert.assertEquals(resultado, -1);
 	}
