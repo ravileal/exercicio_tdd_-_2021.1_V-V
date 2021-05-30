@@ -1,10 +1,8 @@
 package br.ufc.quixada.es.vev.exercicio.tdd.teste;
 
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 import org.junit.Assert;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import br.ufc.quixada.es.vev.exercicio.tdd.model.Calculadora;
@@ -60,8 +58,66 @@ public class TesteCalculadora {
 			calculadora.dividir(1, 0);
 			fail();
 		} catch (ArithmeticException e) {
-			assertThat(e.getMessage(), is("/ by zero"));
+			Assert.assertEquals("/ by zero", e.getMessage());
 		}
 	}
 
+	@Test
+	public void testeDividePorZero0() {
+		try {
+			Calculadora calculadora = new Calculadora();
+			calculadora.dividir(1, 0);
+			fail();
+		} catch (ArithmeticException e) {
+			assertTrue(e.getMessage().contains("/ by zero"));
+		}
+	}
+	
+	@Test
+	public void testeDividePorZero1() {
+		Calculadora calculadora = new Calculadora();
+
+		ThrowingRunnable runnable = new ThrowingRunnable() {
+			@Override
+			public void run() throws Throwable {
+				calculadora.dividir(1, 0);
+			}
+		};
+
+		ArithmeticException thrown = Assert.assertThrows(ArithmeticException.class, runnable);
+
+		assertTrue(thrown.getMessage().contains("/ by zero"));
+	}
+	
+	@Test
+	public void testeDividePorZero2() {
+		Calculadora calculadora = new Calculadora();
+
+		ThrowingRunnable runnable = () -> calculadora.dividir(1, 0);
+
+		ArithmeticException thrown = Assert.assertThrows(ArithmeticException.class, runnable);
+
+		assertTrue(thrown.getMessage().contains("/ by zero"));
+	}
+	
+	@Test
+	public void testeDividePorZero3() {
+		Calculadora calculadora = new Calculadora();
+
+		ArithmeticException thrown = Assert.assertThrows(ArithmeticException.class, () -> calculadora.dividir(1, 0));
+
+		assertTrue(thrown.getMessage().contains("/ by zero"));
+	}
+	
+	
+	@Test
+	public void testeDividePorZero4() {
+		assertTrue(Assert
+				.assertThrows(
+						ArithmeticException.class, 
+						() -> new Calculadora().dividir(1, 0))
+				.getMessage()
+				.contains("/ by zero"));
+	}
+	
 }
